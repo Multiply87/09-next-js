@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createNote } from "@/lib/api";
+import { createNote } from "@/lib/api/clientApi";
 import css from "./NoteForm.module.css";
 import { useNoteDraft } from "@/lib/store/noteStore";
 import { ChangeEvent } from "react";
@@ -11,7 +11,7 @@ interface NoteFormProps {
   onCancel: () => void;
 }
 
-export default function CreateNoteForm({ onCancel }: NoteFormProps) {
+export default function NoteForm({ onCancel }: NoteFormProps) {
   const draftStore = useNoteDraft();
   const queryClient = useQueryClient();
 
@@ -19,7 +19,7 @@ export default function CreateNoteForm({ onCancel }: NoteFormProps) {
     mutationFn: (payload: NoteFormValues) => createNote(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["notes"] });
-      draftStore.clearDraft();
+      draftStore.resetDraft();
       onCancel();
     },
   });
@@ -34,7 +34,7 @@ export default function CreateNoteForm({ onCancel }: NoteFormProps) {
     mutation.mutate(payload);
   };
 
-  const handleChange = ({
+  const handeleChange = ({
     target: { value, name },
   }: ChangeEvent<
     HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -52,7 +52,7 @@ export default function CreateNoteForm({ onCancel }: NoteFormProps) {
           required
           className={css.input}
           value={draftStore.draft.title}
-          onChange={handleChange}
+          onChange={handeleChange}
         />
       </div>
 
@@ -63,7 +63,7 @@ export default function CreateNoteForm({ onCancel }: NoteFormProps) {
           name="content"
           className={css.textarea}
           value={draftStore.draft.content}
-          onChange={handleChange}
+          onChange={handeleChange}
         />
       </div>
 
@@ -73,7 +73,7 @@ export default function CreateNoteForm({ onCancel }: NoteFormProps) {
           id="tag"
           name="tag"
           value={draftStore.draft.tag}
-          onChange={handleChange}
+          onChange={handeleChange}
           className={css.select}
         >
           <option value="Todo">Todo</option>

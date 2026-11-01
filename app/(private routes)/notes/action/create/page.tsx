@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import NoteForm from "./NoteForm.client";
+import CreateNoteClient from "./CreateNote.client";
 
 export const metadata: Metadata = {
   title: "Create Note",
@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Create Note",
     description: "Page for create new note",
-    url: "https://08-next-js.vercel.app/notes/action/create",
+    url: "https://study-rep-react-next-8.vercel.app/notes/action/create",
     images: [
       {
         url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
@@ -20,5 +20,5 @@ export const metadata: Metadata = {
 };
 
 export default function CreateNote() {
-  return <NoteForm />;
+  return <CreateNoteClient />;
 }
